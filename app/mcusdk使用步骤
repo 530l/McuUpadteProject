@@ -1,0 +1,59 @@
+1.
+public class MyApplication extends Application {
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        //初始化
+        UpdateUtils.getInstance().init(this);
+    }
+}
+
+
+2.     监听
+      updateProxy = new UpdateProxy(new UpdateProxy.UseUpdateProxyCall() {
+            @Override
+            public void successful(String status_text) {
+                LayerUtil.showToast(MainActivity2.this, status_text);
+            }
+
+            @Override
+            public void failure(String status_text) {
+                LayerUtil.showToast(MainActivity2.this, status_text);
+            }
+        }, 当前的Activity);
+
+
+
+ 3.     开始升级
+      updateProxy.setUpadteBuffer(new byte[]{});
+       updateProxy.checkUpdate();
+
+
+       tisp：
+
+        可以通过这些来获取升级后的版本信息
+        AppInfo appInfo = new AppInfo();
+        appInfo.setIAPCodePage(AppInfo.getInstance().getIAPCodePage());
+        appInfo.setVersion(AppInfo.getInstance().getOldVersion());
+        appInfo.setVersion(AppInfo.getInstance().getNewVersion());
+
+
+       如果需要关闭或者关闭mcu的串口，
+       SerialPortService.getInstance.closeSerialPort();
+       SerialPortService.getInstance.openSerialPort();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

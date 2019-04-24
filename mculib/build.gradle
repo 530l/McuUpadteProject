@@ -1,0 +1,86 @@
+apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
+
+android {
+    compileSdkVersion 27
+    defaultConfig {
+        minSdkVersion 16
+        //noinspection ExpiredTargetSdkVersion
+        targetSdkVersion 22
+        versionCode 1
+        versionName "1.0"
+        /*  ndk {
+              abiFilters "armeabi", "armeabi-v7a", "mips", "x86"
+          }*/
+    }
+
+    /*   compileOptions {
+           sourceCompatibility JavaVersion.VERSION_1_8
+           targetCompatibility JavaVersion.VERSION_1_8
+       }*/
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'commons-io:commons-io:2.6'
+    implementation 'org.apache.commons:commons-lang3:3.5'
+    implementation 'com.github.licheedev.Android-SerialPort-API:serialport:1.0.1'
+
+
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+
+task generateSourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier 'sources'
+}
+
+task generateJavadocs(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+task generateJavadocsJar(type: Jar, dependsOn: generateJavadocs) {
+    from generateJavadocs.destinationDir
+    classifier 'javadoc'
+}
+
+artifacts {
+//    archives generateJavadocsJar
+    archives generateSourcesJar
+}
+
+
+task javadoc(type: Javadoc) {
+    options {
+        encoding("utf-8")
+        links "http://docs.oracle.com/javase/7/docs/api"
+    }
+    include(
+            "**/BaseConfig.java",
+            "**/HciCloudSeed.java",
+            "**/HciCloudSeedErrorCode.java",
+            "**/BaseConfig.java",
+            "**/OnSeedListener.java",
+            "**/OnWakeupListener.java",
+            "**/RuntimeResourceLoaderManager.java",
+            "**/TtsPlayerListener.java"
+    )
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    destinationDir = file("../javadoc/")
+    failOnError false
+}
+
+javadoc.dependsOn(build)

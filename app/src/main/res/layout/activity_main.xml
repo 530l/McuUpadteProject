@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btm1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="btm1" />
+
+        <Button
+            android:id="@+id/btm2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="btm2" />
+
+        <Button
+            android:id="@+id/btm3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="btm3" />
+
+        <Button
+            android:id="@+id/btm4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="btm4" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btm5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="btm5" />
+
+        <Button
+            android:id="@+id/btm6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="btm6" />
+
+        <Button
+            android:id="@+id/btm7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="btm7" />
+
+        <Button
+            android:id="@+id/btm8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="btm8" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btm9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="btm9" />
+
+
+        <Button
+            android:id="@+id/btm10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="btm10" />
+
+        <Button
+            android:id="@+id/btm11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="更新" />
+
+        <Button
+            android:id="@+id/count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="count" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_reboot"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="重启MCU" />
+
+        <Button
+            android:id="@+id/version_btm"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="重连，刷新版本" />
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp" />
+    </ScrollView>
+
+</LinearLayout>
