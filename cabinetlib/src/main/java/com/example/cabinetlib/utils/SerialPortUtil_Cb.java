@@ -1,11 +1,12 @@
-package com.example.cabinetlib;
+package com.example.cabinetlib.utils;
 
 
 import android.serialport.SerialPort;
-import android.util.Log;
 
-import com.example.cabinetlib.model.EAppInfo;
-import com.example.cabinetlib.utils.LogUtils;
+import com.example.cabinetlib.ChargingBoxProxy;
+import com.example.cabinetlib.bean.CMDInfo_Cb;
+import com.example.cabinetlib.comm.Constants_Cb;
+import com.example.cabinetlib.bean.AppInfo_Cb;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,7 +15,6 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Timer;
 
 /**
  * @author Created by HeCh.
@@ -22,10 +22,10 @@ import java.util.Timer;
  * Description:
  */
 
-public class SerialPortUtil {
+public class SerialPortUtil_Cb {
 
 
-    private static SerialPortUtil sSerialPortUtil;
+    private static SerialPortUtil_Cb sSerialPortUtil;
     private SerialPort mSerialPort = null;
     private OutputStream mOutputStream;
     private InputStream mInputStream;
@@ -38,12 +38,21 @@ public class SerialPortUtil {
     private int totalSize = 0;
     private int index = 0;
     private long lastReadTime = 0;
+    private ChargingBoxProxy chargingBoxProxy;
 
-    public static SerialPortUtil getInstance() {
-        synchronized (SerialPortUtil.class) {
+    public void setChargingBoxProxy(ChargingBoxProxy chargingBoxProxy) {
+        this.chargingBoxProxy = chargingBoxProxy;
+    }
+
+    public OutputStream getmOutputStream() {
+        return mOutputStream;
+    }
+
+    public static SerialPortUtil_Cb getInstance() {
+        synchronized (SerialPortUtil_Cb.class) {
             //未初始化，则初始instance变量
             if (sSerialPortUtil == null) {
-                sSerialPortUtil = new SerialPortUtil();
+                sSerialPortUtil = new SerialPortUtil_Cb();
             }
         }
         return sSerialPortUtil;
@@ -54,18 +63,18 @@ public class SerialPortUtil {
      * 打开串口
      */
     public void openSerialPort() {
-        EAppInfo appInfo = EAppInfo.getInstance();
+        AppInfo_Cb appInfo = AppInfo_Cb.getInstance();
         if (appInfo.platform == null) {
             return;
         }
         try {
             if (mSerialPort == null) {
                 mSerialPort = new SerialPort(new File(appInfo.platform.getSerialPort1()),
-                        Constants.uartBaudrate, 0);
+                        Constants_Cb.uartBaudrate, 0);
                 mOutputStream = mSerialPort.getOutputStream();
                 mInputStream = mSerialPort.getInputStream();
                 mReadThread = new ReadThread();
-                mReadThread.setName(Constants.uartPort);
+                mReadThread.setName(Constants_Cb.uartPort);
                 mReadThread.start();
             }
         } catch (IOException e) {
@@ -213,12 +222,12 @@ public class SerialPortUtil {
                             * 256 + (buffer[2] & 0xff) > size) || count == 1) {//分流处理
                         readCmd(buffer, size);
                     } else {
-                        List<CMDInfo> infoList = new ArrayList<>();
+                        List<CMDInfo_Cb> infoList = new ArrayList<>();
                         int len = 0;
                         int index = 0;
                         int lastIndex = 1;
                         parsingCmd(buffer, infoList, len, index, lastIndex, size);
-                        for (CMDInfo info : infoList) {
+                        for (CMDInfo_Cb info : infoList) {
                             readCmd(info.getBytes(), info.getSize());
                             lastReadTime = System.currentTimeMillis();
                         }
@@ -242,7 +251,7 @@ public class SerialPortUtil {
      * @param index
      * @param lastIndex
      */
-    private void parsingCmd(byte[] cmd, List<CMDInfo> infoList, int len, int index, int lastIndex, int size) {
+    private void parsingCmd(byte[] cmd, List<CMDInfo_Cb> infoList, int len, int index, int lastIndex, int size) {
         while (true) {
             if ((cmd[len] & 0xff) == 0xA8) {
                 trueSize = (cmd[1 + len] & 0xff) * 256 + (cmd[2 + len] & 0xff);
@@ -253,7 +262,7 @@ public class SerialPortUtil {
                     b[i] = cmd[i + len];
                     index++;
                 }
-                CMDInfo info = new CMDInfo(b, trueSize);
+                CMDInfo_Cb info = new CMDInfo_Cb(b, trueSize);
                 if (validate(b))
                     infoList.add(info);
                 len += trueSize;
@@ -354,23 +363,32 @@ public class SerialPortUtil {
     private void dealCallback(String[] dataList, int order, byte[] byteSrc) {
         String hexString = byteArrayToHexString(byteSrc);
         handleMes(dataList, order, byteSrc);
-//        switch (order) {
-//            case 0x61://Android发送查询命令 ,机柜返回
-//                handleMes(dataList, order, byteSrc);
-//                break;
-//            case 0x63://Android发送擦除命令 机柜返回
-//                handleMes(dataList, order, byteSrc);
-//                break;
-//            case 0x65://Android发送写入命令 机柜返回
-//                handleMes(dataList, order, byteSrc);
-//                break;
-//        }
     }
 
     private void handleMes(String[] dataList, int order, byte[] byteSrc) {
         if (dealCallback != null) {
+            byte ordertemp = byteSrc[3];
+            if (ordercheck(ordertemp)) {
+                if (chargingBoxProxy != null) {
+                    chargingBoxProxy.cancelUpadteTime();
+                }
+                return;
+            }
             dealCallback.dealCallback(dataList, order, byteSrc);
+
         }
+    }
+
+    private boolean ordercheck(byte b) {
+        //22----96------103
+        int UnsignedInt1 = ByteUtil_Cb.toUnsignedInt(b);
+        int UnsignedInt2 = ByteUtil_Cb.toUnsignedInt((byte) 0x60);
+        int UnsignedInt3 = ByteUtil_Cb.toUnsignedInt((byte) 0x67);
+        if (UnsignedInt1 < UnsignedInt2 || UnsignedInt1 > UnsignedInt3) {
+            //超过范围
+            return true;
+        }
+        return false;
     }
 
     DealCallback dealCallback = null;
@@ -425,16 +443,42 @@ public class SerialPortUtil {
     /**
      * 关闭串口
      */
+
     public void closeSerialPort() {
+        this.serialPortStatus = false;
+        this.threadStatus = true; //线程状态
         try {
-            mInputStream.close();
-            mOutputStream.close();
-            this.serialPortStatus = false;
-            this.threadStatus = true; //线程状态
-            mSerialPort.close();
+            if (mInputStream != null) {
+                mInputStream.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            mInputStream = null;
+        }
+
+        try {
+            if (mOutputStream != null) {
+                mOutputStream.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            mOutputStream = null;
+        }
+
+        try {
+            if (mSerialPort != null) {
+                mSerialPort.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
             mSerialPort = null;
-        } catch (IOException e) {
-            return;
+        }
+
+        if (mReadThread != null) {
+            mReadThread.interrupt();
         }
     }
 

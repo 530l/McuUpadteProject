@@ -1,6 +1,6 @@
-package com.example.cabinetlib;
+package com.example.cabinetlib.comm;
 
-public interface CabinetOrder {
+public interface CabinetOrder_Cb {
 
     int query_instruct = 0x60;//Android发送查询命令
     int erase_instruct = 0x62;//Android发送擦除命令

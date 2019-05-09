@@ -3,7 +3,7 @@ package com.example.cabinetlib.utils;
 import java.util.Arrays;
 
 
-public class ByteStringUtil {
+public class ByteStringUtil_Cb {
 
     //16进制字符串，转二进制数组
     public static byte[] hexStrToByteArray(String str) {
@@ -62,13 +62,10 @@ public class ByteStringUtil {
 
 
 
-    public static void main(String[] args) {
-//        byte[] arr = new byte[]{85, -86, 1, 0, 1, 0, 1};
-//        System.out.println(Arrays.toString(hexStrToByteArray("55AA0100010001")));
-//        System.out.println(byteArrayToHexStr(arr));
+  /*  public static void main(String[] args) {
+        byte[] arr = new byte[]{85, -86, 1, 0, 1, 0, 1};
+        System.out.println(Arrays.toString(hexStrToByteArray("55AA0100010001")));
+        System.out.println(byteArrayToHexStr(arr));
 
-        byte[] arr=  hexStrToByteArray("0xC08D");
-        System.out.println(arr[0]);
-
-    }
+    }*/
 }

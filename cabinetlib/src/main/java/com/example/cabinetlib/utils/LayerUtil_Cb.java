@@ -8,7 +8,7 @@ import android.support.v7.app.AlertDialog;
 import android.widget.Toast;
 
 
-public class LayerUtil {
+public class LayerUtil_Cb {
     public static AlertDialog.Builder showMessage(Context context, String title, String msg){
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(title);

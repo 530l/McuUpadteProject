@@ -3,7 +3,7 @@ package com.example.cabinetlib.utils;
 import android.arch.core.BuildConfig;
 import android.util.Log;
 
-public class LogUtils {
+public class LogUtils_Cb {
 
     public static void e(String e) {
         if (BuildConfig.DEBUG) {

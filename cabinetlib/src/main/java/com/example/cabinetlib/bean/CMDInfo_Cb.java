@@ -1,4 +1,4 @@
-package com.example.cabinetlib;
+package com.example.cabinetlib.bean;
 
 /**
  * @Copyright 广州市数商云网络科技有限公司
@@ -6,9 +6,9 @@ package com.example.cabinetlib;
  * @Date 2019/4/17 0017 12:42
  * Describe
  */
-public class CMDInfo {
+public class CMDInfo_Cb {
 
-    public CMDInfo(byte[] bytes, int size) {
+    public CMDInfo_Cb(byte[] bytes, int size) {
         this.bytes = bytes;
         this.size = size;
     }

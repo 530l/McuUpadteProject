@@ -199,7 +199,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         findViewById(R.id.count).setOnClickListener(v -> {
-//            LogUtils.i("*****************count==" + UpdatePortProcess.count);
+//            LogUtils_Cb.i("*****************count==" + UpdatePortProcess.count);
         });
 
         findViewById(R.id.btn_reboot).setOnClickListener(v -> {

@@ -7,7 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ByteUtil {
+public class ByteUtil_Cb {
     /**
      * 无符号byte
      *
@@ -108,7 +108,7 @@ public class ByteUtil {
 
     public static String to16Hexsstr(byte[] arr) {
         String hexsstr;
-        List<String> to16Hexs2 = ByteUtil.to16Hexs2(arr);
+        List<String> to16Hexs2 = ByteUtil_Cb.to16Hexs2(arr);
         StringBuilder builder = new StringBuilder();
         for (String s : to16Hexs2) {
             builder.append(s);

@@ -7,20 +7,20 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class McuIntUtil {
+public class McuIntUtil_Cb {
 
     //MCU 的整形与java的整形转换
     public static int toInt(byte b1, byte b2, byte b3, byte b4) {
         List<String> list = new ArrayList<>();
-        list.add(ByteUtil.to16Hex(b1));
-        list.add(ByteUtil.to16Hex(b2));
-        list.add(ByteUtil.to16Hex(b3));
-        list.add(ByteUtil.to16Hex(b4));
+        list.add(ByteUtil_Cb.to16Hex(b1));
+        list.add(ByteUtil_Cb.to16Hex(b2));
+        list.add(ByteUtil_Cb.to16Hex(b3));
+        list.add(ByteUtil_Cb.to16Hex(b4));
         //反转
         Collections.reverse(list);
         //合并
         String hex = StringUtils.join(list.toArray(), "");
-        return ByteUtil.toUnsignedInt(hex);
+        return ByteUtil_Cb.toUnsignedInt(hex);
     }
 
 
@@ -34,18 +34,12 @@ public class McuIntUtil {
         int d4 = Integer.valueOf(hex.substring(6), 16);
 
         byte[] bytes = new byte[4];
-        bytes[0] = ByteUtil.toByte(d4);
-        bytes[1] = ByteUtil.toByte(d3);
-        bytes[2] = ByteUtil.toByte(d2);
-        bytes[3] = ByteUtil.toByte(d1);
+        bytes[0] = ByteUtil_Cb.toByte(d4);
+        bytes[1] = ByteUtil_Cb.toByte(d3);
+        bytes[2] = ByteUtil_Cb.toByte(d2);
+        bytes[3] = ByteUtil_Cb.toByte(d1);
 
         return bytes;
     }
-
-//    public static void main(String[] args) {
-//        int data1 = toInt(ByteUtil.toByte(0X00), ByteUtil.toByte(0X10), ByteUtil.toByte(0X00), ByteUtil.toByte(0X00));
-//        System.out.println(data1);
-//    }
-
 
 }

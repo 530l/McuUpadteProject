@@ -1,4 +1,4 @@
-package com.example.cabinetlib;
+package com.example.cabinetlib.comm;
 
 /**
  * @author Created by HeCh.
@@ -6,7 +6,7 @@ package com.example.cabinetlib;
  * Description: 全局常量
  */
 
-public class Constants {
+public class Constants_Cb {
     //IMEI
     public static String deviceIMEI;
     //串口

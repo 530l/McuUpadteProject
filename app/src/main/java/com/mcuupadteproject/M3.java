@@ -21,6 +21,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+/**
+ * 机柜升级
+ */
 public class M3 extends Activity {
 
     UpdateProxy updateProxy;

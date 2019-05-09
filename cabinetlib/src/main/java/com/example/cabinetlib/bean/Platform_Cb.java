@@ -1,7 +1,7 @@
-package com.example.cabinetlib.model;
+package com.example.cabinetlib.bean;
 
 
-public enum Platform {
+public enum Platform_Cb {
 
     MTK_6373("MTK_6373","M803","/sys/devices/power_bank/power_bank_mcu_rst","","/dev/ttyMT2",""),
 
@@ -21,7 +21,7 @@ public enum Platform {
 
     private String SerialPort2;
 
-    Platform(String name, String model, String IO1, String IO2, String serialPort1, String serialPort2) {
+    Platform_Cb(String name, String model, String IO1, String IO2, String serialPort1, String serialPort2) {
         this.name = name;
         this.model = model;
         this.IO1 = IO1;
